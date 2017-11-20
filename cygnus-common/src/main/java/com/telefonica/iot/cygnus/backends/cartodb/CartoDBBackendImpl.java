@@ -122,6 +122,10 @@ public class CartoDBBackendImpl extends HttpBackend implements CartoDBBackend {
     
     @Override
     public boolean update(String schema, String tableName, String sets, String where) throws Exception {
+	// Set the appropiate schema depending on the account type
+	schema = (isPersonalAccount ? "public" : schema);
+
+	// Do the update
         String query = "UPDATE " + schema + "." + tableName + " SET " + sets + " WHERE " + where;
         String encodedQuery = URLEncoder.encode(query, "UTF-8");
         String relativeURL = BASE_URL + encodedQuery + "&api_key=" + apiKey;
